@@ -5,8 +5,11 @@
 class Enigma {
 	//WORKS ON INTEGERS FORM 0!!!
 public:
+	Enigma(const Enigma& enigma);
 	Enigma(int drumCount);
 	~Enigma();
+
+	Enigma& operator=(Enigma&& right);
 
 	void addDrum(Drum drum, int position);
 	void addReflector(Reflector reflector);
@@ -17,6 +20,8 @@ private:
 	int drumCount;
 	Drum* newDrumPtr;
 	Reflector reflector;
+	bool firstRotated;
+	bool secondRotated;
 
 	void rotateDrums();
 	int getCipherResult(int in);

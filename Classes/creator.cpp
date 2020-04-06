@@ -22,7 +22,7 @@ Drum Creator::newDrum(){
 Reflector Creator::newReflector(){
 	Reflector reflector;
 	int* cable = filledTab(letterCount);
-	reflector.addCables(cable);
+	reflector.addCables(cable, letterCount);
 	return reflector;
 }
 

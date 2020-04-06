@@ -2,7 +2,9 @@
 class Drum {
 public:
 	Drum();
+	Drum(const Drum& drumToCopy);
 	~Drum();
+	void moveDrum(Drum&& drumToMove);
 
 	void addCables(int cable[], int letterCount);
 	void addUnlockPos(int unlockPos[], int unlockPosCount);
@@ -10,8 +12,9 @@ public:
 	int back(int in);
 	bool letsNeighbourRotate();
 	bool matchedWithFuturePos(int testValue);
-	void rotate();
 	void setPosition(int position);
+	void rotate();
+	int* allocateAndCopyCables(int* cablesToCopy, int count);
 
 private:
 	int* forwardCable;

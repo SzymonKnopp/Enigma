@@ -7,7 +7,7 @@ void cipherMessage(Enigma enigma);
 Reflector reflPicked(Reflector* reflStored);
 Drum drumPicked(Drum* drumStored);
 void addDrum(Enigma* enigma, Drum* drumStored);
-Enigma constructEnigma(Drum* drumStored, Reflector* reflStored);
+Enigma* constructEnigma(Drum* drumStored, Reflector* reflStored);
 Reflector* newReflectors(Creator creator);
 Drum* newDrums(Creator creator);
 
@@ -15,12 +15,12 @@ int main() {
 	Creator creator;
 	Drum* drumStored = newDrums(creator);
 	Reflector* reflStored = newReflectors(creator);
-	
+
 	int taskCount;
 	cin >> taskCount;
 	for (int i = 0; i < taskCount; i++) {
-		Enigma enigma = constructEnigma(drumStored, reflStored);
-		cipherMessage(enigma);
+		Enigma* enigma = constructEnigma(drumStored, reflStored);
+		cipherMessage(*enigma);
 	}
 
 	delete[] drumStored;
@@ -34,7 +34,7 @@ Drum* newDrums(Creator creator) {
 	Drum* drum = new Drum[drumCount];
 
 	for (int i = 0; i < drumCount; i++) {
-		drum[i] = creator.newDrum();
+		drum[i].moveDrum(move(creator.newDrum()));
 	}
 	return drum;
 }
@@ -44,21 +44,21 @@ Reflector* newReflectors(Creator creator) {
 	Reflector* reflector = new Reflector[reflCount];
 
 	for (int i = 0; i < reflCount; i++) {
-		reflector[i] = creator.newReflector();
+		reflector[i].moveRefl(move(creator.newReflector()));
 	}
 	return reflector;
 }
 
-Enigma constructEnigma(Drum* drumStored, Reflector* reflStored) {
+Enigma* constructEnigma(Drum* drumStored, Reflector* reflStored) {
 	int drumCount;
 	cin >> drumCount;
-	Enigma enigma(drumCount);
+	Enigma* enigma = new Enigma(drumCount);
 
 	for (int i = 0; i < drumCount; i++) {
-		addDrum(&enigma, drumStored);
+		addDrum(enigma, drumStored);
 	}
 
-	enigma.addReflector(reflPicked(reflStored));
+	enigma->addReflector(reflPicked(reflStored));
 
 	return enigma;
 }

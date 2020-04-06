@@ -8,15 +8,53 @@ Drum::Drum() {
 	this->unlockPos = nullptr;
 	this->unlockPosCount = 0;
 }
-Drum::~Drum() {
-	//delete[] forwardCable;
-	//delete[] backCable;
-	//delete[] unlockPos;
+Drum::Drum(const Drum& drumToCopy) {
+	this->position = drumToCopy.position;
+	this->letterCount = drumToCopy.letterCount;
+	this->forwardCable = allocateAndCopyCables(drumToCopy.forwardCable, letterCount);
+	this->backCable = allocateAndCopyCables(drumToCopy.backCable, letterCount);
+	this->unlockPosCount = drumToCopy.unlockPosCount;
+	this->unlockPos = allocateAndCopyCables(drumToCopy.unlockPos, unlockPosCount);
 }
+
+Drum::~Drum() {
+	delete[] forwardCable;
+	delete[] backCable;
+	delete[] unlockPos;
+}
+
+void Drum::moveDrum(Drum&& drumToMove)
+{
+	this->position = drumToMove.position;
+	this->letterCount = drumToMove.letterCount;
+	this->forwardCable = drumToMove.forwardCable;
+	drumToMove.forwardCable = nullptr;
+	this->backCable = drumToMove.backCable;
+	drumToMove.backCable = nullptr;
+	this->unlockPosCount = drumToMove.unlockPosCount;
+	this->unlockPos = drumToMove.unlockPos;
+	drumToMove.unlockPos = nullptr;
+}
+
+/*
+Drum& Drum::operator=(Drum&& drumToCopy)
+{
+	this->position = drumToCopy.position;
+	this->letterCount = drumToCopy.letterCount;
+	this->forwardCable = drumToCopy.forwardCable;
+	drumToCopy.forwardCable = nullptr;
+	this->backCable = drumToCopy.backCable;
+	drumToCopy.backCable = nullptr;
+	this->unlockPosCount = drumToCopy.unlockPosCount;
+	this->unlockPos = drumToCopy.unlockPos;
+	drumToCopy.unlockPos = nullptr;
+	return *this;
+}
+*/
 
 void Drum::addCables(int cable[], int letterCount) {
 	this->letterCount = letterCount;
-	this->forwardCable = cable;
+	this->forwardCable = allocateAndCopyCables(cable, letterCount);
 
 	this->backCable = new int[letterCount];
 	for (int out = 0; out < letterCount; out++) {
@@ -25,8 +63,8 @@ void Drum::addCables(int cable[], int letterCount) {
 	}
 }
 void Drum::addUnlockPos(int unlockPos[], int unlockPosCount) {
-	this->unlockPos = unlockPos;
 	this->unlockPosCount = unlockPosCount;
+	this->unlockPos = allocateAndCopyCables(unlockPos, unlockPosCount);
 }
 
 int Drum::forward(int in) {
@@ -71,4 +109,12 @@ void Drum::setPosition(int position) {
 }
 void Drum::rotate() {
 	position = (position + 1) % letterCount;
+}
+
+int* Drum::allocateAndCopyCables(int* cablesToCopy, int count) {
+	int* newCable = new int[count];
+	for (int i = 0; i < count; i++) {
+		newCable[i] = cablesToCopy[i];
+	}
+	return newCable;
 }
