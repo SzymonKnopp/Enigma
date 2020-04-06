@@ -1,2 +1,2 @@
 # Enigma
-Simulation of Enigma (Academic Project)
+Simulation of Enigma - Object-Oriented (Academic Project)
