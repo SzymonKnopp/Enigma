@@ -1,5 +1,5 @@
 # Enigma
-Simulation of Enigma - Object-Oriented (Academic Project)
+Simulation of Enigma (Academic Project)
 
 # Input:
 Defintions of parts of the machine:
