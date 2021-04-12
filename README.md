@@ -3,7 +3,7 @@ Simulation of Enigma (Academic Project)
 
 # Input:
 Defintions of parts of the machine:
-n - number of letters (numbers) in the alphabet
+n - number of letters (numbers) in the alphabet\n
 m - number of rotors, followed by their definitions W0,...,Wm-1
   definition of rotor Wi - permutation of the alphabet
   number of letters which cause turnover, followed by these letters
